@@ -1,18 +1,23 @@
 package pl.denisolek.controller;
 
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import pl.denisolek.model.ChatMessage;
 import pl.denisolek.model.InputMessage;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Controller
 public class ChatMessageController {
 
-    @MessageMapping("/chat")
-    @SendTo("/rooms/1")
-    public ChatMessage chatMessage(InputMessage message) throws Exception {
+    @MessageMapping("/chat/{roomName}")
+    @SendTo("/rooms/{roomName}")
+    public ChatMessage chatMessage(@DestinationVariable String roomName, InputMessage message) throws Exception {
         Thread.sleep(200);
-        return new ChatMessage("[TEST] " + message.getMessage());
+        return new ChatMessage("[ "+ new SimpleDateFormat("HH:mm:ss").format(new Date()) +" ] " + message.getMessage());
     }
+
 }

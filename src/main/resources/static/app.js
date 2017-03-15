@@ -1,4 +1,5 @@
 var stompClient = null;
+var roomName = 'project-2';
 
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
@@ -18,8 +19,8 @@ function connect() {
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/rooms/1', function (message) {
-            console.log('Subscribed to room 1');
+
+        stompClient.subscribe('/rooms/' + roomName, function (message) {
             showMessage(JSON.parse(message.body).content);
         });
     });
@@ -34,7 +35,7 @@ function disconnect() {
 }
 
 function sendMessage() {
-    stompClient.send("/app/chat", {}, JSON.stringify({'message': $("#message").val()}));
+    stompClient.send("/app/chat/" + roomName, {}, JSON.stringify({'message': $("#message").val()}));
 }
 
 function showMessage(message) {
