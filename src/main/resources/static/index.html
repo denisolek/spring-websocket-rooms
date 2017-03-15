@@ -16,6 +16,12 @@
 <div id="main-content" class="container">
     <div class="row">
         <div class="col-md-6">
+          <div class="row">
+            <div id="connection-status" class="alert alert-danger">
+              <strong>Not connected</strong>
+            </div>
+          </div>
+          <div class="row">
             <form class="form-inline">
                 <div class="form-group">
                     <label for="connect">WebSocket connection:</label>
@@ -24,6 +30,18 @@
                     </button>
                 </div>
             </form>
+          </div>
+          <div class="row">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="roomOne">Select room:</label>
+                    <button id="roomOne" class="btn btn-default" type="submit">Project 1</button>
+                    <button id="roomTwo" class="btn btn-default" type="submit">Project 2</button>
+                    <button id="roomThree" class="btn btn-default" type="submit">Project 3</button>
+                </div>
+            </form>
+          </div>
+
         </div>
         <div class="col-md-6">
             <form class="form-inline">

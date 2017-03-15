@@ -1,19 +1,27 @@
 var stompClient = null;
-var roomName = 'project-2';
+var currentRoomName = null;
 
 function setConnected(connected) {
-    $("#connect").prop("disabled", connected);
-    $("#disconnect").prop("disabled", !connected);
     if (connected) {
         $("#conversation").show();
+        $("#connection-status").removeClass("alert-danger").addClass("alert-success");
+        $("#connection-status").html("Connected to <strong>" + currentRoomName + "</strong>");
     }
     else {
         $("#conversation").hide();
+        $("#connection-status").removeClass("alert-success").addClass("alert-danger");
+        $("#connection-status").html("<strong>Not connected</strong>");
     }
     $("#chatroom").html("");
 }
 
-function connect() {
+function resetDisabled() {
+  $("#roomOne").prop("disabled", false)
+  $("#roomTwo").prop("disabled", false)
+  $("#roomThree").prop("disabled", false)
+}
+
+function connect(roomName) {
     var socket = new SockJS('/websocket-chat');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
@@ -35,7 +43,9 @@ function disconnect() {
 }
 
 function sendMessage() {
-    stompClient.send("/app/chat/" + roomName, {}, JSON.stringify({'message': $("#message").val()}));
+  if (currentRoomName != null) {
+    stompClient.send("/app/chat/" + currentRoomName, {}, JSON.stringify({'message': $("#message").val()}));
+  }
 }
 
 function showMessage(message) {
@@ -49,7 +59,27 @@ $(function () {
     $( "#connect" ).click(function() { connect(); });
     $( "#disconnect" ).click(function() { disconnect(); });
     $( "#send" ).click(function() {
-      console.log('Send message clicked');
       sendMessage();
+    });
+    $( "#roomOne" ).click(function() {
+      resetDisabled();
+      $("#roomOne").prop("disabled", true)
+      disconnect();
+      connect('project-1')
+      currentRoomName = 'project-1';
+    });
+    $( "#roomTwo" ).click(function() {
+      resetDisabled();
+      $("#roomTwo").prop("disabled", true)
+      disconnect();
+      connect('project-2')
+      currentRoomName = 'project-2';
+    });
+    $( "#roomThree" ).click(function() {
+      resetDisabled();
+      $("#roomThree").prop("disabled", true)
+      disconnect();
+      connect('project-3')
+      currentRoomName = 'project-3';
     });
 });
