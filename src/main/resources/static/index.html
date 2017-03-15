@@ -15,7 +15,7 @@
     Javascript and reload this page!</h2></noscript>
 <div id="main-content" class="container">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
           <div class="row">
             <div id="connection-status" class="alert alert-danger">
               <strong>Not connected</strong>
@@ -24,36 +24,26 @@
           <div class="row">
             <form class="form-inline">
                 <div class="form-group">
-                    <label for="connect">WebSocket connection:</label>
-                    <button id="connect" class="btn btn-default" type="submit">Connect</button>
-                    <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect
-                    </button>
-                </div>
-            </form>
-          </div>
-          <div class="row">
-            <form class="form-inline">
-                <div class="form-group">
                     <label for="roomOne">Select room:</label>
                     <button id="roomOne" class="btn btn-default" type="submit">Project 1</button>
                     <button id="roomTwo" class="btn btn-default" type="submit">Project 2</button>
                     <button id="roomThree" class="btn btn-default" type="submit">Project 3</button>
+                    <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect</button>
                 </div>
             </form>
           </div>
-
-        </div>
-        <div class="col-md-6">
-            <form class="form-inline">
-                <div class="form-group">
-                    <label for="message">Enter message</label>
-                    <input type="text" id="message" class="form-control" placeholder="Message here...">
-                </div>
-                <button id="send" class="btn btn-default" type="submit">Send</button>
-            </form>
+          <div class="row">
+              <form class="form-inline">
+                  <div class="form-group">
+                      <label for="message">Enter message</label>
+                      <input type="text" id="message" class="form-control" placeholder="Message here...">
+                  </div>
+                  <button id="send" class="btn btn-default" type="submit">Send</button>
+              </form>
+          </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row chat-container">
         <div class="col-md-12">
             <table id="conversation" class="table table-striped">
                 <thead>

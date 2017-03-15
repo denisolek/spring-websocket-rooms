@@ -6,11 +6,14 @@ function setConnected(connected) {
         $("#conversation").show();
         $("#connection-status").removeClass("alert-danger").addClass("alert-success");
         $("#connection-status").html("Connected to <strong>" + currentRoomName + "</strong>");
+        $("#disconnect").prop("disabled", false);
     }
     else {
         $("#conversation").hide();
         $("#connection-status").removeClass("alert-success").addClass("alert-danger");
         $("#connection-status").html("<strong>Not connected</strong>");
+        $("#disconnect").prop("disabled", true);
+        resetDisabled();
     }
     $("#chatroom").html("");
 }
@@ -53,10 +56,10 @@ function showMessage(message) {
 }
 
 $(function () {
+    $("#conversation").hide();
     $("form").on('submit', function (e) {
         e.preventDefault();
     });
-    $( "#connect" ).click(function() { connect(); });
     $( "#disconnect" ).click(function() { disconnect(); });
     $( "#send" ).click(function() {
       sendMessage();
