@@ -101,6 +101,79 @@ public class ChatMessageTests {
 
     }
 
+    @Test
+    public void multipleSubscribes() throws Exception {
+
+        final CountDownLatch latch = new CountDownLatch(1);
+        final AtomicReference<Throwable> failure = new AtomicReference<>();
+
+        StompSessionHandler handler = new TestSessionHandler(failure) {
+
+            @Override
+            public void afterConnected(final StompSession session, StompHeaders connectedHeaders) {
+                session.subscribe("/rooms/project-1", new StompFrameHandler() {
+                    @Override
+                    public Type getPayloadType(StompHeaders headers) {
+                        return ChatMessage.class;
+                    }
+
+                    @Override
+                    public void handleFrame(StompHeaders headers, Object payload) {
+                        ChatMessage chatMessage = (ChatMessage) payload;
+                        try {
+                            assertEquals("[ project-1 ] MessageTest", chatMessage.getContent());
+                        } catch (Throwable t) {
+                            failure.set(t);
+                        } finally {
+                            session.disconnect();
+                            latch.countDown();
+                        }
+                    }
+                });
+
+                session.subscribe("/rooms/project-2", new StompFrameHandler() {
+                    @Override
+                    public Type getPayloadType(StompHeaders headers) {
+                        return ChatMessage.class;
+                    }
+
+                    @Override
+                    public void handleFrame(StompHeaders headers, Object payload) {
+                        ChatMessage chatMessage = (ChatMessage) payload;
+                        try {
+                            assertEquals("[ project-2 ] MessageTest", chatMessage.getContent());
+                        } catch (Throwable t) {
+                            failure.set(t);
+                        } finally {
+                            session.disconnect();
+                            latch.countDown();
+                        }
+                    }
+                });
+                try {
+                    session.send("/app/chat/project-1", new InputMessage("MessageTest"));
+                    session.send("/app/chat/project-2", new InputMessage("MessageTest"));
+                } catch (Throwable t) {
+                    failure.set(t);
+                    latch.countDown();
+                }
+            }
+        };
+
+        this.stompClient.connect("ws://localhost:{port}/websocket-chat", this.headers, handler, this.port);
+
+        if (latch.await(3, TimeUnit.SECONDS)) {
+            if (failure.get() != null) {
+                throw new AssertionError("", failure.get());
+            }
+        }
+        else {
+            fail("InputMessage not received");
+        }
+
+    }
+
+
     private class TestSessionHandler extends StompSessionHandlerAdapter {
 
         private final AtomicReference<Throwable> failure;
