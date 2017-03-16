@@ -1,0 +1,35 @@
+body {
+    background-color: #f5f5f5;
+}
+
+input {
+  min-width: 500px;
+}
+
+#main-content {
+    max-width: 940px;
+    padding: 2em 3em;
+    margin: 0 auto 20px;
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+#connection-status {
+  text-align: center;
+}
+
+.row {
+  padding-bottom: 10px;
+}
+
+.chat-container {
+  text-align: left;
+}
+
+#disconnect {
+  background-color: #FF4D4D;
+}
