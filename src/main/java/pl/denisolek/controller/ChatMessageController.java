@@ -17,7 +17,7 @@ public class ChatMessageController {
     @SendTo("/rooms/{roomName}")
     public ChatMessage chatMessage(@DestinationVariable String roomName, InputMessage message) throws Exception {
         Thread.sleep(200);
-        return new ChatMessage("[ "+ new SimpleDateFormat("HH:mm:ss").format(new Date()) +" ] " + message.getMessage());
+        return new ChatMessage("[ "+ roomName +" ] " + message.getMessage());
     }
 
 }
