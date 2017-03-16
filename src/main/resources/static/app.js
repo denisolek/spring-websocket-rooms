@@ -25,7 +25,7 @@ function resetDisabled() {
 }
 
 function connect(roomName) {
-    var socket = new SockJS('/websocket-chat');
+    var socket = new SockJS('http://192.27.3.124:8080/websocket-chat');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         setConnected(true);
