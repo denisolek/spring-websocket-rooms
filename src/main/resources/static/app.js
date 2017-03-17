@@ -25,7 +25,7 @@ function resetDisabled() {
 }
 
 function connect(roomName) {
-    var socket = new SockJS('/websocket-chat');
+    var socket = new SockJS('http://localhost:8080/websocket-chat');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         setConnected(true);
@@ -67,21 +67,21 @@ $(function () {
     $( "#roomOne" ).click(function() {
       resetDisabled();
       $("#roomOne").prop("disabled", true)
-      disconnect();
+      // disconnect();
       connect('project-1')
       currentRoomName = 'project-1';
     });
     $( "#roomTwo" ).click(function() {
       resetDisabled();
       $("#roomTwo").prop("disabled", true)
-      disconnect();
+      // disconnect();
       connect('project-2')
       currentRoomName = 'project-2';
     });
     $( "#roomThree" ).click(function() {
       resetDisabled();
       $("#roomThree").prop("disabled", true)
-      disconnect();
+      // disconnect();
       connect('project-3')
       currentRoomName = 'project-3';
     });
