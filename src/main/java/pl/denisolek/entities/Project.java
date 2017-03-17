@@ -1,7 +1,11 @@
 package pl.denisolek.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="projects")
@@ -18,6 +22,14 @@ public class Project {
 
     @Column(name = "executive_company")
     private String executiveCompany;
+
+    @Column(name = "room_name")
+    private String roomName;
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "projects")
+    private Set<User> users = new HashSet<User>();
+
 
     public String getName() {
         return name;
@@ -41,5 +53,21 @@ public class Project {
 
     public void setExecutiveCompany(String executiveCompany) {
         this.executiveCompany = executiveCompany;
+    }
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 }

@@ -16,7 +16,6 @@ public class ChatMessageController {
     @MessageMapping("/chat/{roomName}")
     @SendTo("/rooms/{roomName}")
     public ChatMessage chatMessage(@DestinationVariable String roomName, InputMessage message) throws Exception {
-        Thread.sleep(200);
         return new ChatMessage("[ "+ roomName +" ] " + message.getMessage());
     }
 
